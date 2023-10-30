@@ -26,18 +26,15 @@ const usersSchema = mongoose.Schema({
         type: String,
          require:[true,"This filed is required"],
     },
-    age: {
-        type: Number,
+    dob: {
+        type: Date,
         require:true
     },
      created_at: {
          type: Date,
          default:Date.now
     },
-    userphoto: {
-        type: String,
-        require:[true,"This filed is required"],
-     }
+     userphoto: {  type: String,  require:[true,"This filed is required"],  }
 
 
 });

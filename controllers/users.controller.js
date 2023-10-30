@@ -3,12 +3,18 @@ const { v4: uniqueID } = require("uuid");
 const usersTable = require("../models/users.model");
 const path = require("path");
 const multer = require("multer");
+const chalk = require("chalk");
+
+ 
 
 const userLogin = (req, res) => {
+
+
       res.sendFile(path.join(__dirname + "/../views/login.html")); 
 };
 
 const userLoginSave = (req, res) => {
+
     res.send("login save page");
 };
 
@@ -31,9 +37,8 @@ const userPhotoUpload = multer({ storage: userPhotoStore });
 
 const registerUserSave = async (req, res) => {
     //id username email fullname passwoard userphoto
-
-    res.send(req.file.filename);
-    /*
+    res.send("test");
+    exit(); 
 
        try {
           const newUser = new usersTable({
@@ -42,15 +47,17 @@ const registerUserSave = async (req, res) => {
             email:req.body.email,
             fullname:req.body.fullname,
             passwoard: req.body.passwoard,
-           age: Number(req.body.age),
-            userphoto: req.file.filename
+           dob: req.body.dob,
+             userphoto: req.file.filename
         })
         await newUser.save();
-        res.status(200).json(newUser);
+           res.status(200).json(newUser);
+           
+          
     } catch (error) {
         res.status(500).send(error.message);
     }
-*/
+  
      
 };
 

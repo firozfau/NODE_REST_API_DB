@@ -2,10 +2,14 @@ const express = require("express");
 const cors = require("cors");
 const bParser = require("body-parser");
 const userRouter = require("./routes/users.route");
+const morgan = require("morgan");
+
 
  require("./config/db");
 
 app = express();
+
+//app.use(morgan("dev")); // url hit all info show on console
 
 app.use(cors());
 app.use(bParser.urlencoded({extended:true}));
@@ -23,7 +27,7 @@ app.use("/api/users",userRouter);
 
 
 app.get("/", (req, res) => {
-
+    
     res.sendFile(__dirname + "/views/index.html");
     
 });
