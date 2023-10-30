@@ -7,6 +7,7 @@ const {
     userLogin,
     userLoginSave,
     registerUser,
+    userPhotoUpload,
    registerUserSave,
    getAllUserInformation,
    getUserInformation,
@@ -22,7 +23,7 @@ userRouter.post("/login", userLoginSave);
 
 
 userRouter.get("/register", registerUser);
-userRouter.post("/register", registerUserSave);
+userRouter.post("/register",userPhotoUpload.single("userphoto"), registerUserSave);
 
 
 userRouter.get("/allInformation", getAllUserInformation);

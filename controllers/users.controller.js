@@ -2,9 +2,10 @@ let users = require("../models/users.model");
 const { v4: uniqueID } = require("uuid");
 const usersTable = require("../models/users.model");
 const path = require("path");
+const multer = require("multer");
 
 const userLogin = (req, res) => {
-    res.send("login page")
+      res.sendFile(path.join(__dirname + "/../views/login.html")); 
 };
 
 const userLoginSave = (req, res) => {
@@ -17,25 +18,40 @@ const registerUser = (req, res) => {
     
 };
 
+const userPhotoStore = multer.diskStorage({
+    destination: function (req, file, cb) { 
+        cb(null, "documents/userphoto");
+    },
+    filename: function (req, file, cb) { 
+       cb(null, file.fieldname + '_' + Date.now() + path.extname(file.originalname)); 
+    },
+})
+
+const userPhotoUpload = multer({ storage: userPhotoStore });
 
 const registerUserSave = async (req, res) => {
-    //id username email fullname passwoard 
-  
-    try {
+    //id username email fullname passwoard userphoto
+
+    res.send(req.file.filename);
+    /*
+
+       try {
           const newUser = new usersTable({
             id:uniqueID(),
             username:req.body.username,
             email:req.body.email,
             fullname:req.body.fullname,
             passwoard: req.body.passwoard,
-            age:Number(req.body.age)
+           age: Number(req.body.age),
+            userphoto: req.file.filename
         })
         await newUser.save();
         res.status(200).json(newUser);
     } catch (error) {
         res.status(500).send(error.message);
     }
-
+*/
+     
 };
 
  
@@ -95,6 +111,7 @@ module.exports = {
     userLogin,
     userLoginSave,
     registerUser,
+    userPhotoUpload,
     registerUserSave,
     getAllUserInformation,
     getUserInformation, 
