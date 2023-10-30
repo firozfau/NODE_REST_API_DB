@@ -1,9 +1,9 @@
 const express = require("express");
 const cors = require("cors");
 const bParser = require("body-parser");
-const userRouter = require("./routes/users.route");
 const morgan = require("morgan");
-
+const userRouter = require("./routes/users.route");
+const profileRouter = require("./routes/profiles.route");
 
  require("./config/db");
 
@@ -18,11 +18,8 @@ app.use(bParser.json());
 
 
 
-app.use("/api/users",userRouter);
-
-
-
-
+app.use("/api/users", userRouter);
+app.use("/api/users",profileRouter);
 
 
 

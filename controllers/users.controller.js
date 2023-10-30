@@ -1,4 +1,3 @@
-let users = require("../models/users.model");
 const { v4: uniqueID } = require("uuid");
 const usersTable = require("../models/users.model");
 const path = require("path");
