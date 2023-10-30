@@ -1,8 +1,11 @@
 const { v4: uniqueID } = require("uuid");
-
 const mongoose  = require("mongoose");
+const encrypt = require('mongoose-encryption');
 
-const usersSchema = mongoose.Schema({
+
+
+
+const usersSchema = new mongoose.Schema({
     id: {
         type: String,
          require:[true,"This filed is required"],
@@ -28,7 +31,7 @@ const usersSchema = mongoose.Schema({
     },
     dob: {
         type: Date,
-        require:true
+        userphoto: {  type: String,  require:[true,"This filed is required"],  }
     },
      created_at: {
          type: Date,
@@ -40,6 +43,11 @@ const usersSchema = mongoose.Schema({
 });
 
 
+
+//const eKey = process.env.ENC_KEY;
+
+const eKey = "ILoveMyCountryVeryMuch";
+usersSchema.plugin(encrypt, { secret: eKey, encryptedFields: ['passwoard'] });
 
 
 

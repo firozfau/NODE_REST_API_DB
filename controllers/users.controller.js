@@ -13,9 +13,20 @@ const userLogin = (req, res) => {
       res.sendFile(path.join(__dirname + "/../views/login.html")); 
 };
 
-const userLoginSave = (req, res) => {
+const userLoginSave = async (req, res) => {
+    try{
+            const { username, passwoard } = req.body;
+            const usersData = await usersTable.findOne({ username: username });
+            if (usersData && usersData.passwoard === passwoard) {
+                res.status(200).json({ status: "login success" });
+            }else{
+                res.status(200).json({ status: "User not found" });
+            }
+        
+   } catch (error) {
+        res.status(500).send(error.message);
+    }
 
-    res.send("login save page");
 };
 
 
@@ -37,8 +48,7 @@ const userPhotoUpload = multer({ storage: userPhotoStore });
 
 const registerUserSave = async (req, res) => {
     //id username email fullname passwoard userphoto
-    res.send("test");
-    exit(); 
+ 
 
        try {
           const newUser = new usersTable({
@@ -48,7 +58,7 @@ const registerUserSave = async (req, res) => {
             fullname:req.body.fullname,
             passwoard: req.body.passwoard,
            dob: req.body.dob,
-             userphoto: req.file.filename
+         userphoto: req.file.filename
         })
         await newUser.save();
            res.status(200).json(newUser);

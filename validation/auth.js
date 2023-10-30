@@ -33,6 +33,6 @@ exports.authUserRegistration = [
         .withMessage("Date of birth is Missing")
         .isLength({ min: 6, max: 10 })
         .withMessage("Name should be minimum 6 and max 10 characters") 
-        .toDate()
+        //.toDate()
             .withMessage("Not a valid date of date of birth")
 ]

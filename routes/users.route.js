@@ -25,7 +25,8 @@ userRouter.post("/login", userLoginSave);
 
 
 userRouter.get("/register", registerUser);
- userRouter.post("/register",authUserRegistration,runValidation,userPhotoUpload.single("userphoto"), registerUserSave);
+//userRouter.post("/register",authUserRegistration,runValidation,userPhotoUpload.single("userphoto"), registerUserSave); 
+userRouter.post("/register", userPhotoUpload.single("userphoto"), registerUserSave);
 
 
 userRouter.get("/allInformation", getAllUserInformation);
