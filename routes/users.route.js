@@ -7,6 +7,7 @@ const { authUserRegistration} = require("../validation/auth");
 const { runValidation} = require("../validation/auth.validation");
 
 const {
+    checkIsLogined,
     userLogin,
     userLoginSave,
     registerUser,
@@ -19,7 +20,20 @@ const {
 } = require("../controllers/users.controller");
 
 
-userRouter.get("/login", userLogin);
+
+
+userRouter.get("/logout", (req, res) => {
+    req.logout((error) => {
+        if (error) {
+            return next(error);
+        }
+        res.redirect("/login");
+     })
+    res.status(500).send(error.message);
+});
+
+
+userRouter.get("/login",checkIsLogined ,userLogin);
 userRouter.post("/login", userLoginSave);
 
 

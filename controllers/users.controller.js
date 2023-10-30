@@ -4,17 +4,39 @@ const path = require("path");
 const multer = require("multer");
 const chalk = require("chalk");
 const bcrypt = require("bcrypt");
+const  passport  = require("passport");
 const saltRounds = 10;
 
- 
- 
+
+
+const checkIsLogined = (req, res, next) => {
+     if (req.isAuthenticated()) {
+        return res.redirect("/profile");
+     }
+    next();
+}
+
 
 const userLogin = (req, res) => {
 
-
-      res.sendFile(path.join(__dirname + "/../views/login.html")); 
+   
+    res.render("login");
+     // res.sendFile(path.join(__dirname + "/../views/login.html")); 
 };
 
+const userLoginSave = async (req, res) => { 
+    try {
+        passport.authenticate("local", {
+            failureRedirect: "/login",
+            successRedirect:"/profile"
+        })
+
+    } catch (error) {
+         res.status(500).send(error.message);
+    }
+
+}
+/*
 const userLoginSave = async (req, res) => {
     try{
             const { username, passwoard } = req.body;
@@ -25,15 +47,18 @@ const userLoginSave = async (req, res) => {
                     
                 if (result == true) {
                     
-                    res.status(200).json({ status: "login success" });
+                    //res.status(200).json({ status: "login success" });
+                    res.status(200).redirect("profile");
                 }
                 else {
-                    res.status(200).json({ status: "Password does not match" });
+                   // res.status(200).json({ status: "Password does not match" });
+                    res.status(200).redirect("login");
                 }
             });
                 
             }else{
-                res.status(200).json({ status: "User not found" });
+               // res.status(200).json({ status: "User not found" });
+                   res.status(200).redirect("login");
             }
         
    } catch (error) {
@@ -41,10 +66,12 @@ const userLoginSave = async (req, res) => {
     }
 
 };
-
+*/
 
 const registerUser = (req, res) => {
-    res.sendFile(path.join(__dirname + "/../views/register.html")); 
+   
+    res.render("register");
+    // res.sendFile(path.join(__dirname + "/../views/register.html"));
     
 };
 
@@ -143,6 +170,7 @@ const deleteUserInformation = async (req, res) => {
 
 
 module.exports = {
+    checkIsLogined,
     userLogin,
     userLoginSave,
     registerUser,
