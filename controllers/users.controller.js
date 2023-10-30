@@ -4,7 +4,10 @@ const usersTable = require("../models/users.model");
 const path = require("path");
 const multer = require("multer");
 const chalk = require("chalk");
+const bcrypt = require("bcrypt");
+const saltRounds = 10;
 
+ 
  
 
 const userLogin = (req, res) => {
@@ -17,8 +20,19 @@ const userLoginSave = async (req, res) => {
     try{
             const { username, passwoard } = req.body;
             const usersData = await usersTable.findOne({ username: username });
-            if (usersData && usersData.passwoard === passwoard) {
-                res.status(200).json({ status: "login success" });
+   
+        if (usersData) {
+            bcrypt.compare(passwoard, usersData.passwoard, function (err, result) {
+                    
+                if (result == true) {
+                    
+                    res.status(200).json({ status: "login success" });
+                }
+                else {
+                    res.status(200).json({ status: "Password does not match" });
+                }
+            });
+                
             }else{
                 res.status(200).json({ status: "User not found" });
             }
@@ -50,18 +64,23 @@ const registerUserSave = async (req, res) => {
     //id username email fullname passwoard userphoto
  
 
-       try {
-          const newUser = new usersTable({
-            id:uniqueID(),
-            username:req.body.username,
-            email:req.body.email,
-            fullname:req.body.fullname,
-            passwoard: req.body.passwoard,
-           dob: req.body.dob,
-         userphoto: req.file.filename
-        })
-        await newUser.save();
+    try {
+            
+        bcrypt.hash(req.body.passwoard, saltRounds, async function (err, hash) {
+            const newUser = new usersTable({
+                id: uniqueID(),
+                username: req.body.username,
+                email: req.body.email,
+                fullname: req.body.fullname,
+                passwoard: hash,
+                dob: req.body.dob,
+                userphoto: req.file.filename
+            }); 
+            await newUser.save();
            res.status(200).json(newUser);
+        })
+ 
+        
            
           
     } catch (error) {

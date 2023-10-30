@@ -1,7 +1,5 @@
 const { v4: uniqueID } = require("uuid");
 const mongoose  = require("mongoose");
-const encrypt = require('mongoose-encryption');
-
 
 
 
@@ -41,13 +39,6 @@ const usersSchema = new mongoose.Schema({
 
 
 });
-
-
-
-//const eKey = process.env.ENC_KEY;
-
-const eKey = "ILoveMyCountryVeryMuch";
-usersSchema.plugin(encrypt, { secret: eKey, encryptedFields: ['passwoard'] });
 
 
 
